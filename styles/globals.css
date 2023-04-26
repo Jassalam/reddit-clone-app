@@ -26,10 +26,10 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-html{
+/*html{
   filter: invert(100%);
 }
 
 img{
   filter: invert(100%);
-}
+}*/

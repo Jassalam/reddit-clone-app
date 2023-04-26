@@ -12,13 +12,22 @@ export default function Index({ posts }) {
     return null
   }
 
-  if (session) {
-    router.push('/')
+  if (session && !session.user.name) {
+    router.push('/setup')
   }
+
 
   return (
     <div>
-      <a href='/api/auth/signin'>login</a>
+      <header className='flex h-12 px-5 pt-3 pb-2 text-white bg-black'>
+        <p>Reddit clone</p>
+        <p className='grow'></p>
+        <a
+        className='flex-l border px-4 mb-1 font-bold  rounded-full '
+        href={ session ? '/api/auth/signout' : '/api/auth/signin'}>
+          {session ? 'logout' : 'login'}
+           </a>
+      </header>
       <Posts posts={posts} />
     </div>
   )
