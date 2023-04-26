@@ -11,11 +11,17 @@ export default function Subreddit({ subreddit, posts }){
 
     return(
         <>
-        <Link href={`/`} className="block p-5 text-center underline">
-            Back to homepage
-        </Link>
-        <p className="text-center p-5">/r/{subreddit.name}</p>
-        <Posts posts={posts} />
+        
+        <header className="bg-black text-white h-12 flex pt-3 px-5 pb-2">
+            <Link href={'/'} className="underline">
+                Home
+            </Link>
+            <p className="grow"></p>
+        </header>
+        <header className="bg-black text-white h-12 flex pt-3 px-5 pb-2">
+       <p className="text-center">/r/{subreddit.name}</p>
+        <p className="ml-4 text-left grow">{subreddit.description}</p>
+        </header>
         </>
     )
 }

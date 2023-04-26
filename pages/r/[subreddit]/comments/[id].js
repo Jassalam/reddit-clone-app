@@ -7,12 +7,21 @@ export default function Post({ subreddit, post }){
     if(!post) return <p className="text-center p-5">Post does not exist</p>
     return(
         <>
-        <Link href={`/`} className='text-center p-5 underline block'>
-        back to the homepage
+        <header className="bg-black text-white h-12 flex pt-3 px-5 pb-2">
+        <Link href={`/`} className='underline'>
+         Home
       </Link>
-      <Link href={`/r/${subreddit.name}`} className='text-center p-5 underline block'>
-        back to /r/{subreddit.name}
-      </Link>
+      <p className="grow"></p>
+        </header>
+        <header className="bg-black text-white h-12 flex pt-3 px-5 pb-2">
+        <Link href={`/r/${subreddit.name}`} className='text-center underline'>
+        /r/{subreddit.name}
+        </Link>
+        <p className="ml-4 text-left grow">{subreddit.description}</p>
+        </header>
+
+        
+      
 
          <div className='flex flex-col mb-4 border border-3 border-black p-10 bg-gray-200 mx-20 my-10'>
 	      <div className='flex flex-shrink-0 pb-0 '>
