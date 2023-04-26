@@ -1,18 +1,36 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { getPosts } from 'lib/data.js'
+import prisma from 'lib/prisma'
+import Posts from './components/Posts'
 
-const inter = Inter({ subsets: ['latin'] })
+export default function Index({ posts }) {
+  const { data: session, status } = useSession()
+  const router = useRouter()
 
-export default function Home() {
+  if (status === 'loading') {
+    return null
+  }
+
+  if (session) {
+    router.push('/')
+  }
+
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div>
-        <h1>Home Page</h1>
-        <a href='/api/auth/signin'>login</a>
-      </div>
-
-    </main>
+    <div>
+      <a href='/api/auth/signin'>login</a>
+      <Posts posts={posts} />
+    </div>
   )
+}
+
+export async function getServerSideProps() {
+  let posts = await getPosts(prisma)
+  posts = JSON.parse(JSON.stringify(posts))
+
+  return {
+    props: {
+      posts: posts,
+    },
+  }
 }
