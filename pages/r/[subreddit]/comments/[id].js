@@ -4,6 +4,7 @@ import prisma from 'lib/prisma'
 import { getPost, getSubreddit } from 'lib/data.js'
 import timeago from 'lib/timeago'
 import NewComment from '@/pages/components/NewComment'
+import Comments from '@/pages/components/Comments'
 
 export default function Post({ subreddit, post }) {
   const { data: session, status } = useSession()
@@ -58,6 +59,7 @@ export default function Post({ subreddit, post }) {
             to add a comment
           </p>
         )}
+        <Comments comments={post.comments}/>
       </div>
     </>
   )
