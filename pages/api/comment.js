@@ -20,8 +20,27 @@ export default async function handler(req, res) {
   if (!user) return res.status(401).json({ message: 'User not found' })
 
   if (req.method === 'POST') {
+    const data = {
+      content: req.body.content,
+      post: {
+        connect: {
+          id: req.body.post,
+        },
+      },
+      author: {
+        connect: { id: user.id },
+      },
+    }
+
+    if(req.body.comment){
+      data.parent = {
+        connect: {
+          id: req.body.comment,
+        },
+      }
+    }
     const comment = await prisma.comment.create({
-      data: {
+       data: {
         content: req.body.content,
         post: {
           connect: {
