@@ -9,6 +9,8 @@ export default function NewPost({ subreddit }) {
   const router = useRouter()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [image, setImage] = useState(null)
+  const [ imageURL, setImageURL] = useState(null)
 
   const { data: session, status} = useSession()
   const loading = status === 'loading'
@@ -47,19 +49,19 @@ export default function NewPost({ subreddit }) {
                 alert('Enter a title')
                 return
               }
-              if (!content) {
-                alert('Enter some text in the post')
+              if (!content && !image) {
+                alert('Enter some text in the post or add an image')
                 return
               }
+
+              const body = new FormData()
+              body.append('image', image)
+              body.append('title', title)
+              body.append('content', content)
+              body.append('subreddit_name', subreddit.name) 
+
               const res = await fetch('/api/post', {
-                body: JSON.stringify({
-                  title,
-                  content,
-                  subreddit_name: subreddit.name,
-                }),
-                headers: {
-                  'Content-Type': 'application/json',
-                },
+                body,
                 method: 'POST',
               })
               router.push(`/r/${subreddit.name}`)
@@ -79,6 +81,28 @@ export default function NewPost({ subreddit }) {
               placeholder='The post content'
               onChange={(e) => setContent(e.target.value)}
             />
+            <div className='text-sm text-gray-600 '>
+              <label className='relative font-medium cursor-pointer underline my-3 block'>
+                {!imageURL && <p className=''>Upload an image</p>}
+              <img src={imageURL} />
+          <input
+              name='image'
+              type='file'
+              accept='image/*'
+              className='hidden'
+              onChange={(event) => {
+                if (event.target.files && event.target.files[0]) {
+                  if (event.target.files[0].size > 3072000) {
+                    alert('Maximum size allowed is 3MB')
+                  return false
+          }
+          setImage(event.target.files[0])
+          setImageURL(URL.createObjectURL(event.target.files[0]))
+        }
+      }}
+    />
+  </label>
+</div>
             <div className='mt-5'>
               <button className='px-8 py-2 mt-0 mr-8 font-bold border border-gray-700 '>
                 Post
