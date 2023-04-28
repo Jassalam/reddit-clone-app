@@ -8,7 +8,12 @@ const Comment = ({ comment, post }) => {
     return(
         <div className="mt-6">
             <p>
-                {comment.author.name} {timeago.format(new Date(comment.createdAt))}
+            <Link href={`/u/${comment.author.name}`} 
+            className="underline">
+                        {comment.author.name}
+                </Link> {' '}
+                        {timeago.format(new Date(comment.createdAt))}
+                         
             </p>
             <p>{comment.content}</p>
             { showReply ? (

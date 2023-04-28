@@ -10,7 +10,9 @@ export default function Post({ post }){
                         <Link href={`/r/${post.subredditName}`} className="mr-2 underline">
                             /r/{post.subredditName}
                         </Link>
-                         Posted by {post.author.name} {' '}
+                         <Link href={`/u/${post.author.username}`} className="ml-1 underline">
+                            {post.author.username}
+                            </Link> {' '}
                          <Link href={`/r/${post.subredditName}/comments/${post.id}`} 
                          className="mx-2 underline">
                         {timeago.format(new Date(post.createdAt))}
